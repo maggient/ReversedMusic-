@@ -2,7 +2,7 @@
 * Template from c2017-2023 Courtney Brown modified by Maggie Nguyen
 * Name: Maggie Nguyen
 * Date: November 15th, 2023
-* Class: App.java, Final Project
+* Class: App.java, Final Project Prototype
 * Description: This is the Project 1 template for the Probability Generator, has been modified and completed
 */
 
