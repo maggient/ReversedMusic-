@@ -1,9 +1,9 @@
 /*
  * Template from: c2017-2023 Courtney Brown modified from Maggie Nguyen 
  * Name: Maggie Nguyen 
- * Date: November 15th, 2023 testing
- * Class: ProbabliityGenerator, Final Project 
- * Description: This is the Project 1 template for the Probability Generator, has been modified and completed 
+ * Date: November 20th, 2023 
+ * Class: ProbabliityGenerator, Final Project COMPLETED
+ * Description: This is the Project 1 template for the Probability Generator, has been modified and completed for Showcase 
  */
 
 

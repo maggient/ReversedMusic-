@@ -1,9 +1,9 @@
 /*
  * Template from c2017-2023 Courtney Brown modified by Maggie Nguyen 
  * Name: Maggie Nguyen 
- * Date: November 15th, 2023 
- * Class: App.java, Final Project 
- * Description: This is the Project 1 template for the Probability Generator, has been modified and completed 
+ * Date: November 20th, 2023 
+ * Class: App.java, Final Project COMPLETED
+ * Description: This is the Project 1 template for the Probability Generator, has been modified and completed for Showcase 
  */
 
 package com.example;
@@ -55,9 +55,9 @@ public class App {
 		// playMidiFileDebugTest(filePath);
 
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); //reads input stream - user press 
 
-        while (true) {
+        while (true) { //prints out the options for users to understand 
 			System.out.println();
 			System.out.println("------------NUMBERED OPTIONS------------");
 			System.out.println();
@@ -80,12 +80,12 @@ public class App {
 			System.out.print("------------ENTER NUMBER HERE------------ ");
 			System.out.println();
 
-            int choice = scanner.nextInt();
+            int choice = scanner.nextInt(); //reads from user input 
 
-            switch (choice) {
+            switch (choice) { //user decides which case to choose, resulting in the function being called 
                 case 1:
                     playOriginalMidi();
-                    break;
+                    break; //after calling the function, it stops 
                 case 2:
                 	playGeneratedNotes();
                     break;
@@ -107,147 +107,148 @@ public class App {
                 case 0:
                     System.out.println("------------PROGRAM COMPLETED------------");
 					System.out.println();
-                    System.exit(0);
-            }
-        }
-    }
+                    System.exit(0); //end of the program, no longer runs 
+
+			} //end of switch cases 
+        } //end of while loop 
+    } //end of	public static void main(String[] args) 
 	
 
 //1
-private static void playOriginalMidi() {
-	player.setMelody(midiNotes.getPitchArray());
-    player.setRhythm(midiNotes.getRhythmArray());
-	System.out.println("----------Original Midi Playing----------");
-	playMelody();
-    player.reset(); // Reset player for the generated melody
+private static void playOriginalMidi() { //function for playing original MIDI 
+	player.setMelody(midiNotes.getPitchArray()); //sets pitch array - the melody 
+    player.setRhythm(midiNotes.getRhythmArray()); //sets rhythm array - the rhythm 
+	System.out.println("----------Original Midi Playing----------"); //print statement 
+	playMelody(); //plays original melody 
+    player.reset(); //resets - in order to accurately play other functions 
 }
 
 //2
-private static void playGeneratedNotes() {
-	ProbabilityGenerator<Integer> pitchGen = new ProbabilityGenerator<Integer>();
-    ProbabilityGenerator<Double> rhythmGen = new ProbabilityGenerator<Double>();
+private static void playGeneratedNotes() { //function to play generated notes 
+	ProbabilityGenerator<Integer> pitchGen = new ProbabilityGenerator<Integer>(); //prob gens for pitches 
+    ProbabilityGenerator<Double> rhythmGen = new ProbabilityGenerator<Double>(); //prob gens for rhythms
 
-    pitchGen.train(midiNotes.getPitchArray());
-    rhythmGen.train(midiNotes.getRhythmArray());
+    pitchGen.train(midiNotes.getPitchArray()); //trains generators 
+    rhythmGen.train(midiNotes.getRhythmArray()); //trains generators 
 
-    for (int i = 0; i < 1000000; i++) {
-        ArrayList<Integer> pitches = pitchGen.generate(20);
-        ArrayList<Double> rhythms = rhythmGen.generate(20);
-        pitchGen.train(pitches);
-        rhythmGen.train(rhythms);
+    for (int i = 0; i < 1000000; i++) { //iteration of 1000000 -  generation and train melodies 
+        ArrayList<Integer> pitches = pitchGen.generate(20); //generate 20 pitches 
+        ArrayList<Double> rhythms = rhythmGen.generate(20); //generate 20 rhythms
+        pitchGen.train(pitches); //training gen with generated pitches 
+        rhythmGen.train(rhythms); //training gen with generated rhythms 
     }
 
-    ArrayList<Integer> generatedPitches = pitchGen.generate(40);
-    player.setMelody(generatedPitches);
-    player.setRhythm(rhythmGen.generate(40));
-	System.out.println("-------Probability Genereated Notes-------");
-	playMelody();
-    player.reset(); // Reset player for the reversed generated melody
+    ArrayList<Integer> generatedPitches = pitchGen.generate(40); //generate 40 pitches 
+    player.setMelody(generatedPitches); //generates melody 
+    player.setRhythm(rhythmGen.generate(40)); //generate 40 rhythms
+	System.out.println("-------Probability Genereated Notes-------"); //print statement 
+	playMelody(); //plays generated notes 
+    player.reset(); //resets - in order to accurately play other functions 
 }
 
 
 //3
-	private static void playReversedGeneratedNotes() {
-		ProbabilityGenerator<Integer> pitchGen = new ProbabilityGenerator<Integer>(); // pitch instance
-		ProbabilityGenerator<Double> rhythmGen = new ProbabilityGenerator<Double>(); // rhythm instance
+	private static void playReversedGeneratedNotes() { //function for playing reversal of generated notes 
+		ProbabilityGenerator<Integer> pitchGen = new ProbabilityGenerator<Integer>(); //prob gens for pitches 
+		ProbabilityGenerator<Double> rhythmGen = new ProbabilityGenerator<Double>(); //prob gens for rhythms
 	
-		pitchGen.train(midiNotes.getPitchArray()); // trains
-		rhythmGen.train(midiNotes.getRhythmArray()); // trains
+		pitchGen.train(midiNotes.getPitchArray()); //trains generators 
+		rhythmGen.train(midiNotes.getRhythmArray()); //trains generators 
 	
-		ProbabilityGenerator<Integer> pitchGen2 = new ProbabilityGenerator<Integer>(); // reverse pitch instance
-		ProbabilityGenerator<Double> rhythmGen2 = new ProbabilityGenerator<Double>(); // reverse rhythm instance
+		ProbabilityGenerator<Integer> pitchGen2 = new ProbabilityGenerator<Integer>(); //prob gens for reversed pitches 
+		ProbabilityGenerator<Double> rhythmGen2 = new ProbabilityGenerator<Double>(); //prob gens for reversed rhythms
 	
 		// For Original Midi
-		for (int i = 0; i < 1000000; i++) { // loops 1000000 iterations
-			ArrayList<Integer> pitches = pitchGen.generate(20); // 20 pitches generated
-			ArrayList<Double> rhythms = rhythmGen.generate(20); // 20 rhythms generated
-			pitchGen2.train(pitches); // trains
-			rhythmGen2.train(rhythms); // trains
+		for (int i = 0; i < 1000000; i++) { //iteration of 1000000 
+			ArrayList<Integer> pitches = pitchGen.generate(20); //generation of 20 pitches 
+			ArrayList<Double> rhythms = rhythmGen.generate(20); //generation of 20 rhythms 
+			pitchGen2.train(pitches); //training gen with generated pitches 
+			rhythmGen2.train(rhythms); //training gen with generated rhythms 
 		}
-		player.reset(); // Resets
+		player.reset(); //resets - in order to accurately play other functions 
 	
 		// For Reversed Midi
-		for (int i = 0; i < 1000000; i++) { // loops 1000000 iterations
-			ArrayList<Integer> reversedPitches = pitchGen2.generate(40); // 40 reversed pitches
-			ArrayList<Double> reversedRhythms = rhythmGen2.generate(40); // 40 reversed rhythms
-			pitchGen.train(reversedPitches); // train
-			rhythmGen.train(reversedRhythms); // train
+		for (int i = 0; i < 1000000; i++) { //iteration of 1000000 
+			ArrayList<Integer> reversedPitches = pitchGen2.generate(40); //generates 40 reversal pitches 
+			ArrayList<Double> reversedRhythms = rhythmGen2.generate(40); //generates 40 reversal rhythms 
+			pitchGen.train(reversedPitches); //training gen with generated pitches 
+			rhythmGen.train(reversedRhythms); //training gen with generated rhythms 
 		}
 	
-		player.setMelody(pitchGen2.generate(40));
-		player.setRhythm(rhythmGen2.generate(40));
-		System.out.println("---------Reversed Generated Notes---------");
-		playMelody(); // plays reversed
-		player.reset(); // Resets
+		player.setMelody(pitchGen2.generate(40)); //reversal melody 
+		player.setRhythm(rhythmGen2.generate(40)); //reversal melody 
+		System.out.println("---------Reversed Generated Notes---------"); //print statement 
+		playMelody(); //plays reversed generation melody 
+		player.reset(); //resets - in order to accurately play other functions 
  }
 
 
 //4
-private static void playOriginalMidiQuicker() {
-	ArrayList<Double> quickerRhythms = new ArrayList<>();
-    for (Double rhythm : midiNotes.getRhythmArray()) {
-        quickerRhythms.add(rhythm / 2); // Multiply by 2, you can change this factor
+private static void playOriginalMidiQuicker() { //function for playing original MIDI 2x the speed 
+	ArrayList<Double> quickerRhythms = new ArrayList<>(); //new arraylist to store thyrhtms
+    for (Double rhythm : midiNotes.getRhythmArray()) { //iterates through original rhythm 
+        quickerRhythms.add(rhythm / 2); //changes speed by 2x
     }
-    player.setMelody(midiNotes.getPitchArray());
-    player.setRhythm(quickerRhythms);
-    System.out.println("----Original Midi with Quicker Rhythm----");
-	playMelody();
-    player.reset(); // Reset player for the transposed original melody
+    player.setMelody(midiNotes.getPitchArray()); //original pitches - melody 
+    player.setRhythm(quickerRhythms); //quicker rhythm 
+    System.out.println("----Original Midi with Quicker Rhythm----"); //print statement 
+	playMelody(); //plays original MIDI 2x the speed 
+    player.reset(); //resets - in order to accurately play other functions 
 }
 
 
 //5
-private static void playOriginalMidiSlower() {
-	 ArrayList<Double> slowerRhythms = new ArrayList<>();
-    for (Double rhythm : midiNotes.getRhythmArray()) {
-        slowerRhythms.add(rhythm * 2); // Multiply by 2, you can change this factor
+private static void playOriginalMidiSlower() { //function for playing original MIDI 0.5 the speed 
+	 ArrayList<Double> slowerRhythms = new ArrayList<>(); //new arraylist to store thyrhtms
+    for (Double rhythm : midiNotes.getRhythmArray()) { //iterates through original rhythm 
+        slowerRhythms.add(rhythm * 2); //changes speed by 0.5
     }
-    player.setMelody(midiNotes.getPitchArray());
-    player.setRhythm(slowerRhythms);
-    System.out.println("----Original Midi with Slower Rhythm----");
-	playMelody();
-	player.reset(); // Reset player for the generated melody
+    player.setMelody(midiNotes.getPitchArray()); //original pitches - melody 
+    player.setRhythm(slowerRhythms); //slower rhythm 
+    System.out.println("----Original Midi with Slower Rhythm----"); //print statement 
+	playMelody(); //plays original MIDI 0.5 the speed 
+	player.reset(); //resets - in order to accurately play other functions 
 }
 
 
 //6
-private static void playOriginalMidiOneOctaveHigher() {
-	 ArrayList<Integer> oneOctaveHigher = new ArrayList<>();
-    for (Integer pitch : midiNotes.getPitchArray()) {
-        oneOctaveHigher.add(pitch + 12); // Transpose one octave up, you can change this value
+private static void playOriginalMidiOneOctaveHigher() { //function for playing original MIDI an octave higher
+	 ArrayList<Integer> oneOctaveHigher = new ArrayList<>(); //new arraylist to store pitches an octave higher 
+    for (Integer pitch : midiNotes.getPitchArray()) { //iteration through original pitch 
+        oneOctaveHigher.add(pitch + 12); //move octaves 
     }
-    player.setMelody(oneOctaveHigher);
-    player.setRhythm(midiNotes.getRhythmArray()); // Keep the original rhythm
-    System.out.println("-----Original Midi One Octave Higher-----");
-	playMelody();
-	player.reset();
+    player.setMelody(oneOctaveHigher); //new pitches - melody 
+    player.setRhythm(midiNotes.getRhythmArray()); //original rhythm 
+    System.out.println("-----Original Midi One Octave Higher-----"); //print statement 
+	playMelody(); //plays original one octave higher 
+	player.reset(); //resets - in order to accurately play other functions 
 }
 
 
 //7
-private static void playOriginalMidiOneOctaveLower() {
-	 ArrayList<Integer> oneOctaveLower = new ArrayList<>();
-    for (Integer pitch : midiNotes.getPitchArray()) {
-        oneOctaveLower.add(pitch - 12); // Transpose one octave up, you can change this value
+private static void playOriginalMidiOneOctaveLower() { //function for playing original MIDI an octave lower
+	 ArrayList<Integer> oneOctaveLower = new ArrayList<>(); //new arraylist to store pitches an octave lower 
+    for (Integer pitch : midiNotes.getPitchArray()) { //iteration through original pitch 
+        oneOctaveLower.add(pitch - 12); //move octaves 
     }
-    player.setMelody(oneOctaveLower);
-    player.setRhythm(midiNotes.getRhythmArray()); // Keep the original rhythm
-    System.out.println("-----Original Midi One Octave Lower-----");
-	playMelody();
-	player.reset();
+    player.setMelody(oneOctaveLower); //new pitches - melody 
+    player.setRhythm(midiNotes.getRhythmArray()); //original rhythm 
+    System.out.println("-----Original Midi One Octave Lower-----"); //print statement 
+	playMelody(); //plays original one octave lower 
+	player.reset(); //resets - in order to accurately play other functions 
 }
 
 
-	public static void testAndTrainProbGen ()
+	public static void testAndTrainProbGen () //prints out table - probability distribution 
 	{
-		ProbabilityGenerator<Integer> pitchgen = new ProbabilityGenerator<Integer>(); //pitch instance 
-		ProbabilityGenerator<Double> rhytemgen = new ProbabilityGenerator<Double>(); //rhythm instance
+		ProbabilityGenerator<Integer> pitchgen = new ProbabilityGenerator<Integer>(); //prob gen for pitch 
+		ProbabilityGenerator<Double> rhytemgen = new ProbabilityGenerator<Double>(); //prob gen for rhythm 
 
-		pitchgen.train(midiNotes.getPitchArray()); 
-		rhytemgen.train(midiNotes.getRhythmArray()); 
+		pitchgen.train(midiNotes.getPitchArray()); //trains pitch gen with original 
+		rhytemgen.train(midiNotes.getRhythmArray()); //trains rhythm gen with original 
 
-		pitchgen.printProbabilityDistribution(false); 
-		rhytemgen.printProbabilityDistribution(false); 
+		pitchgen.printProbabilityDistribution(false); //prints probability distribution - pitches - no round
+		rhytemgen.printProbabilityDistribution(false); //prints probability distribution - rhythms - no round
 
 	}
 
