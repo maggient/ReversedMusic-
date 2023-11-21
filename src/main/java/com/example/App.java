@@ -63,17 +63,19 @@ public class App {
 			System.out.println();
 			System.out.println("1   TO PLAY ORIGINAL MIDI");
 			System.out.println();
-			System.out.println("2   TO PLAY GENERATED NOTES");
+			System.out.println("2   TO PLAY ORIGINAL REVERSED");
 			System.out.println();
-			System.out.println("3   TO PLAY REVERSED GENERATED NOTES");
+			System.out.println("3   TO PLAY GENERATED NOTES");
+			System.out.println();
+			System.out.println("4   TO PLAY GENERATED NOTES REVERSED");
          	System.out.println();
-			System.out.println("4   TO PLAY ORIGINAL MIDI QUICKER");
+			System.out.println("5   TO PLAY ORIGINAL MIDI QUICKER");
 			System.out.println();
-			System.out.println("5   TO PLAY ORIGINAL MIDI SLOWER");
+			System.out.println("6   TO PLAY ORIGINAL MIDI SLOWER");
 			System.out.println();
-			System.out.println("6   TO PLAY ORIGINAL MIDI ONE OCTAVE HIGHER");
+			System.out.println("7   TO PLAY ORIGINAL MIDI ONE OCTAVE HIGHER");
 			System.out.println();
-			System.out.println("7   TO PLAY ORIGINAL MIDI ONE OCTAVE LOWER");
+			System.out.println("8   TO PLAY ORIGINAL MIDI ONE OCTAVE LOWER");
 			System.out.println();
 			System.out.println("0   TO END");
 			System.out.println();
@@ -84,24 +86,27 @@ public class App {
 
             switch (choice) { //user decides which case to choose, resulting in the function being called 
                 case 1:
-                    playOriginalMidi();
+                    playOriginalMidi(); //plays function if user chooses 
                     break; //after calling the function, it stops 
-                case 2:
-                	playGeneratedNotes();
+				case 2:
+                    reverseOriginalMidi();
                     break;
-				case 3:
-                	playReversedGeneratedNotes();
+                case 3:
+                	playGeneratedNotes(); //using probability generator  
                     break;
-                case 4:
-                    playOriginalMidiQuicker();
+				case 4:
+                	playReversedGeneratedNotes(); //using probability generator  
                     break;
                 case 5:
-                    playOriginalMidiSlower();
+                    playOriginalMidiQuicker();
                     break;
                 case 6:
-                    playOriginalMidiOneOctaveHigher();
+                    playOriginalMidiSlower();
                     break;
                 case 7:
+                    playOriginalMidiOneOctaveHigher();
+                    break;
+                case 8:
                     playOriginalMidiOneOctaveLower();
                     break;
                 case 0:
@@ -123,7 +128,26 @@ private static void playOriginalMidi() { //function for playing original MIDI
     player.reset(); //resets - in order to accurately play other functions 
 }
 
+
 //2
+private static void reverseOriginalMidi() { //function for reversing the original MIDI
+    ArrayList<Integer> reversedPitches = new ArrayList<>(); //new arraylist to store reversed pitches
+    ArrayList<Double> reversedRhythms = new ArrayList<>(); //new arraylist to store reversed rhythms
+
+    for (int i = midiNotes.getPitchArray().size() - 1; i >= 0; i--) { //reverses pitches and rhythms 
+        reversedPitches.add(midiNotes.getPitchArray().get(i)); //reverses pitches and rhythms 
+        reversedRhythms.add(midiNotes.getRhythmArray().get(i)); //reverses pitches and rhythms 
+    }
+
+    player.setMelody(reversedPitches); //set reversed pitches - melody
+    player.setRhythm(reversedRhythms); //set reversed rhythms
+    System.out.println("---------Reversed Original Midi---------"); //print statement
+    playMelody(); //plays reversed original MIDI
+    player.reset(); //resets - in order to accurately play other functions
+}
+
+
+//3
 private static void playGeneratedNotes() { //function to play generated notes 
 	ProbabilityGenerator<Integer> pitchGen = new ProbabilityGenerator<Integer>(); //prob gens for pitches 
     ProbabilityGenerator<Double> rhythmGen = new ProbabilityGenerator<Double>(); //prob gens for rhythms
@@ -147,7 +171,7 @@ private static void playGeneratedNotes() { //function to play generated notes
 }
 
 
-//3
+//4
 	private static void playReversedGeneratedNotes() { //function for playing reversal of generated notes 
 		ProbabilityGenerator<Integer> pitchGen = new ProbabilityGenerator<Integer>(); //prob gens for pitches 
 		ProbabilityGenerator<Double> rhythmGen = new ProbabilityGenerator<Double>(); //prob gens for rhythms
@@ -183,7 +207,7 @@ private static void playGeneratedNotes() { //function to play generated notes
  }
 
 
-//4
+//5
 private static void playOriginalMidiQuicker() { //function for playing original MIDI 2x the speed 
 	ArrayList<Double> quickerRhythms = new ArrayList<>(); //new arraylist to store thyrhtms
     for (Double rhythm : midiNotes.getRhythmArray()) { //iterates through original rhythm 
@@ -197,7 +221,7 @@ private static void playOriginalMidiQuicker() { //function for playing original 
 }
 
 
-//5
+//6
 private static void playOriginalMidiSlower() { //function for playing original MIDI 0.5 the speed 
 	 ArrayList<Double> slowerRhythms = new ArrayList<>(); //new arraylist to store thyrhtms
     for (Double rhythm : midiNotes.getRhythmArray()) { //iterates through original rhythm 
@@ -211,7 +235,7 @@ private static void playOriginalMidiSlower() { //function for playing original M
 }
 
 
-//6
+//7
 private static void playOriginalMidiOneOctaveHigher() { //function for playing original MIDI an octave higher
 	 ArrayList<Integer> oneOctaveHigher = new ArrayList<>(); //new arraylist to store pitches an octave higher 
     for (Integer pitch : midiNotes.getPitchArray()) { //iteration through original pitch 
@@ -225,7 +249,7 @@ private static void playOriginalMidiOneOctaveHigher() { //function for playing o
 }
 
 
-//7
+//8
 private static void playOriginalMidiOneOctaveLower() { //function for playing original MIDI an octave lower
 	 ArrayList<Integer> oneOctaveLower = new ArrayList<>(); //new arraylist to store pitches an octave lower 
     for (Integer pitch : midiNotes.getPitchArray()) { //iteration through original pitch 
