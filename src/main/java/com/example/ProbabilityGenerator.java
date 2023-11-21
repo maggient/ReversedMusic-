@@ -86,8 +86,8 @@ public class ProbabilityGenerator <E>
 	//students do not need to use this class
 	protected class SortArraysOutput
 	{
-		public ArrayList<E> symbolsListSorted;
-		public ArrayList<Float> symbolsCountSorted;
+		public ArrayList<E> symbolsListSorted; //arraylist of symbolsListSorted
+		public ArrayList<Float> symbolsCountSorted; //arraylist of symbolsCountSorted
 	} //end of SortArraysOutput
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
